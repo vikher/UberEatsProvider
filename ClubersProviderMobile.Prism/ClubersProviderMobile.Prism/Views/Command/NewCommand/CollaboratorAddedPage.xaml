@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.CollaboratorAddedPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0"
+                    BorderColor="{StaticResource accent}"
+                    CornerRadius="10"
+                    HasShadow="true">
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.RowSpan="2"
+                            Margin="0"
+                            Padding="0"
+                            FontFamily="{StaticResource MaterialFontFamily}"
+                            FontSize="Large"
+                            HeightRequest="20"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{Binding CustomerIcon}"
+                            TextColor="{StaticResource primary_text}"
+                            VerticalTextAlignment="Center" />
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            FontAttributes="Bold"
+                            Text="{Binding Customer.FullName}"
+                            TextColor="{StaticResource primary_dark}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            FontAttributes="Italic"
+                            HorizontalOptions="Start"
+                            Text="Socio Clubers"
+                            TextColor="{StaticResource primary_dark}"
+                            VerticalOptions="Start" />
+                        <Image
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            HeightRequest="25"
+                            HorizontalOptions="Start"
+                            Source="{Binding Collaborator.ImageUrl}"
+                            VerticalOptions="Start"
+                            WidthRequest="25" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Start"
+                            Text="{Binding Collaborator.FullName, StringFormat='           {0}'}"
+                            TextColor="{StaticResource primary_dark}"
+                            VerticalTextAlignment="Start" />
+                    </Grid>
+                </Frame>
+                <Button
+                    Grid.Row="1"
+                    Command="{Binding GoEstablishmentPageCommand}"
+                    Text="Agregar productos" />
+            </Grid>
+        </ScrollView>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

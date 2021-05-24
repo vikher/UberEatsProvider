@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.EstablishmentReviewPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <AbsoluteLayout Padding="10,5">
+        <StackLayout
+            Padding="5"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+
+            <Frame
+                Margin="0,0,0,10"
+                Padding="0"
+                CornerRadius="20"
+                HeightRequest="40">
+                <SearchBar
+                    Margin="5"
+                    CancelButtonColor="{StaticResource cluberspink}"
+                    FontSize="Small"
+                    HeightRequest="50"
+                    HorizontalTextAlignment="Center"
+                    Placeholder="Buscar producto"
+                    PlaceholderColor="{StaticResource secondary_text}"
+                    SearchCommand="{Binding SearchCommand}"
+                    Text="{Binding Search}"
+                    TextColor="{StaticResource cluberspink}" />
+            </Frame>
+            <CollectionView
+                IsGrouped="true"
+                ItemsSource="{Binding ProductsGrouped}"
+                SelectedItem="{Binding SelectedProduct}"
+                SelectionChangedCommand="{Binding SelectedProductCommand}"
+                SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="15" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label
+                            Margin="0"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="{Binding Key}" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0"
+                            Padding="0"
+                            CornerRadius="10"
+                            HasShadow="True">
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <ffimageloading:CachedImage
+                                    Grid.RowSpan="3"
+                                    Aspect="AspectFill"
+                                    CacheDuration="50"
+                                    ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                    HeightRequest="80"
+                                    LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                    RetryCount="3"
+                                    RetryDelay="600"
+                                    Source="{Binding ProductFiles[0].Files.Url}"
+                                    WidthRequest="80">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:RoundedTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding OnSitePrice, StringFormat='{}{0:C0}.00'}"
+                                    TextColor="{StaticResource cluberspink}" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Text="{Binding Description}"
+                                    TextColor="{StaticResource GrayColor}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout>
+                <custom:CustomButton
+                    Command="{Binding GoDetailCommand}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Style="{StaticResource ButtonStyle}"
+                    Text="Ver canasta" />
+            </StackLayout>
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

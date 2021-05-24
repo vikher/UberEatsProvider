@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.PaymentAppPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ffimageloading:CachedImage
+                        Grid.RowSpan="2"
+                        Aspect="AspectFill"
+                        CacheDuration="50"
+                        ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                        HeightRequest="60"
+                        LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                        RetryCount="3"
+                        RetryDelay="600"
+                        Source="{Binding Customer.ImageUrl}"
+                        WidthRequest="60">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                    </ffimageloading:CachedImage>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        Text="{Binding Customer.FullName}"
+                        TextColor="{StaticResource primary_dark}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        FontAttributes="Italic"
+                        HorizontalOptions="Start"
+                        Text="Socio Clubers"
+                        TextColor="{StaticResource primary_dark}"
+                        VerticalOptions="Start" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding Order.Id, StringFormat='PEDIDO No. {0}'}"
+                        TextColor="{StaticResource primary_deep}"
+                        VerticalTextAlignment="Start" />
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HeightRequest="25"
+                        HorizontalOptions="Start"
+                        Source="{Binding WaiterIcon}"
+                        VerticalOptions="End"
+                        WidthRequest="25" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding Collaborator.FullName, StringFormat='           {0}'}"
+                        TextColor="{StaticResource primary_dark}"
+                        VerticalTextAlignment="Start" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        FontAttributes="Italic"
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding Order.TableNumber}"
+                        TextColor="{StaticResource primary_dark}"
+                        VerticalTextAlignment="Start" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontAttributes="Italic"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding Order.HourOrder}"
+                        TextColor="{StaticResource primary_dark}"
+                        VerticalTextAlignment="End" />
+                </Grid>
+                <BoxView
+                    Grid.Row="2"
+                    BackgroundColor="{StaticResource accent}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
+                <Grid Grid.Row="3">
+                    <Label
+                        Grid.Row="0"
+                        FontAttributes="Italic"
+                        HorizontalTextAlignment="Start"
+                        Text="El socio consumidor realizará el pago desde su aplicación Clubers"
+                        TextColor="{StaticResource primary_dark}" />
+                    <Label
+                        Grid.Row="1"
+                        FontAttributes="Bold"
+                        Text="Forma de pago:"
+                        TextColor="{StaticResource primary_dark}" />
+
+                </Grid>
+                <BoxView
+                    Grid.Row="4"
+                    BackgroundColor="{StaticResource accent}"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
+                <Grid Grid.Row="5">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        Text="Total a pagar"
+                        TextColor="{StaticResource primary_dark}" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="End"
+                        Text="{Binding Order.TotalPrice, StringFormat=' {0:C}'}"
+                        TextColor="{StaticResource primary_deep}" />
+                </Grid>
+                <Grid Grid.Row="6">
+                    <Label
+                        FontAttributes="Italic"
+                        HorizontalTextAlignment="Center"
+                        Text="Cualquier problema relacionado con el pedido favor de contactar a soporte Clubers, por el medio conocido."
+                        TextColor="{StaticResource primary_dark}" />
+                </Grid>
+            </Grid>
+        </ScrollView>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

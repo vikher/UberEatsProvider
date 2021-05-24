@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.OpenCommandPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoCollaboratorPageCommand}" />
+                </Grid.GestureRecognizers>
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0"
+                    BorderColor="{StaticResource accent}"
+                    CornerRadius="10"
+                    HasShadow="true">
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="60"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding Customer.ImageUrl}"
+                            WidthRequest="60">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            FontAttributes="Bold"
+                            Text="{Binding Customer.FullName}"
+                            TextColor="{StaticResource primary_dark}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            FontAttributes="Italic"
+                            HorizontalOptions="Start"
+                            Text="Socio Clubers"
+                            TextColor="{StaticResource primary_dark}"
+                            VerticalOptions="Start" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            FontAttributes="Italic"
+                            FontSize="12"
+                            HorizontalTextAlignment="Start"
+                            Text="Da clic aquí para agregar mesero"
+                            TextColor="{StaticResource primary_dark}"
+                            VerticalTextAlignment="Start" />
+                    </Grid>
+                </Frame>
+            </Grid>
+        </ScrollView>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

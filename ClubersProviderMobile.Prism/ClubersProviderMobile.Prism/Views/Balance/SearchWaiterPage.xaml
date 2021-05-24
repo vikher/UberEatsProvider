@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.SearchWaiterPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:ClubersProviderMobile.Prism.Converters"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:skiarate="clr-namespace:SkiaRate;assembly=SkiaRate.Forms"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ScoreToRatingConverter x:Key="ScoreToRating" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <AbsoluteLayout>
+            <StackLayout Padding="15,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        Text="Fecha inicial" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        Text="Fecha final" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Date="{Binding StartDate}"
+                        FontSize="Small" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Date="{Binding EndDate}"
+                        FontSize="Small" />
+                    <custom:CustomButton
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Padding="0"
+                        Command="{Binding FilterCommand}"
+                        FontSize="12"
+                        Style="{StaticResource ButtonStyle}"
+                        Text="Consultar" />
+                </Grid>
+                <Frame
+                    Margin="0,0,0,10"
+                    Padding="0"
+                    CornerRadius="20"
+                    HeightRequest="40">
+                    <SearchBar
+                        Margin="5"
+                        CancelButtonColor="{StaticResource cluberspink}"
+                        FontSize="Small"
+                        HeightRequest="50"
+                        HorizontalTextAlignment="Center"
+                        Placeholder="Buscar mesero..."
+                        PlaceholderColor="{StaticResource secondary_text}"
+                        SearchCommand="{Binding SearchCommand}"
+                        Text="{Binding Search}"
+                        TextColor="{StaticResource cluberspink}" />
+                </Frame>
+                <RefreshView
+                    Command="{Binding RefreshViewCommand}"
+                    IsRefreshing="{Binding IsRefreshing}"
+                    RefreshColor="{StaticResource cluberspink}">
+                    <CollectionView
+                        ItemsSource="{Binding Collaborators}"
+                        SelectedItem="{Binding SelectedCollaborator}"
+                        SelectionChangedCommand="{Binding CollaboratorSelectedCommand}"
+                        SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <Label
+                                    Margin="10,25,10,10"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Center"
+                                    Text="No hay meseros" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="15" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Margin="0"
+                                    Padding="5"
+                                    CornerRadius="10"
+                                    HasShadow="True"
+                                    HorizontalOptions="StartAndExpand"
+                                    IsClippedToBounds="True"
+                                    VerticalOptions="Center">
+                                    <Grid
+                                        Padding="10"
+                                        ColumnDefinitions="Auto,Auto,*,Auto,Auto"
+                                        RowDefinitions="Auto,Auto"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            Grid.RowSpan="2"
+                                            FontSize="12"
+                                            Text="{Binding LastDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                            VerticalOptions="Center" />
+                                        <ffimageloading:CachedImage
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Aspect="AspectFill"
+                                            CacheDuration="50"
+                                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                            HeightRequest="40"
+                                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                            RetryCount="3"
+                                            RetryDelay="600"
+                                            Source="http://clubers.qagperti.tk/Resources/icons/clubers_SP_mesero.png"
+                                            VerticalOptions="Center"
+                                            WidthRequest="40">
+                                            <ffimageloading:CachedImage.Transformations>
+                                                <fftransformations:CircleTransformation />
+                                            </ffimageloading:CachedImage.Transformations>
+                                        </ffimageloading:CachedImage>
+                                        <Label
+                                            Grid.Column="2"
+                                            FontAttributes="Bold"
+                                            Text="{Binding EstablishmentStaff.FullName}"
+                                            VerticalOptions="EndAndExpand" />
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            FontSize="12"
+                                            Text="{Binding EstablishmentStaff.Id, StringFormat='Mesero: {0}'}"
+                                            VerticalOptions="Start" />
+                                        <Grid
+                                            Grid.RowSpan="2"
+                                            Grid.Column="3"
+                                            Margin="0,0,-16,0"
+                                            ColumnDefinitions="Auto, Auto"
+                                            RowDefinitions="Auto"
+                                            VerticalOptions="Center">
+                                            <skiarate:RatingView
+                                                Grid.Column="0"
+                                                Margin="0,0,-20,0"
+                                                ColorOn="{StaticResource accent}"
+                                                Count="1"
+                                                HeightRequest="5"
+                                                RatingType="Full"
+                                                Value="{Binding Score, Converter={StaticResource ScoreToRating}}" />
+                                            <Label
+                                                Grid.Column="1"
+                                                Margin="-10,0,0,0"
+                                                FontSize="Micro"
+                                                HorizontalOptions="Start"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Score, StringFormat='{0:F1}'}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                        <Label
+                                            Grid.RowSpan="2"
+                                            Grid.Column="4"
+                                            Padding="20,0,0,0"
+                                            FontSize="Small"
+                                            Text="{Binding TipBalance, StringFormat='${0}'}"
+                                            VerticalOptions="Center" />
+                                    </Grid>
+                                </Frame>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+            <ActivityIndicator
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsRunning}"
+                IsVisible="{Binding IsRunning}"
+                VerticalOptions="Center"
+                Color="{StaticResource cluberspink}" />
+        </AbsoluteLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Orders.OrderDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:local="clr-namespace:ClubersCustomerMobile.Prism.Converters"
+    xmlns:local1="clr-namespace:ClubersProviderMobile.Prism.Converters"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+
+    <Page.Resources>
+        <local:OrderTypeValueConverter x:Key="OrderTypeValueConverter" />
+        <local1:OrderStatusToStringValueConverter x:Key="OrderStatusToStringValueConverter" />
+    </Page.Resources>
+    <AbsoluteLayout>
+        <StackLayout
+            Padding="15"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <ScrollView>
+                <StackLayout Spacing="10">
+                    <Frame
+                        Padding="15,10"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        HeightRequest="50">
+                        <Grid
+                            ColumnDefinitions="Auto,*, Auto"
+                            RowDefinitions="Auto, Auto"
+                            VerticalOptions="Center">
+                            <ffimageloading:CachedImage
+                                Grid.RowSpan="2"
+                                Aspect="AspectFill"
+                                CacheDuration="50"
+                                ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                HeightRequest="50"
+                                LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                RetryCount="3"
+                                RetryDelay="600"
+                                Source="{Binding Order.Customer.User.ProfileImageUrl}"
+                                VerticalOptions="Center"
+                                WidthRequest="50">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+                            <Label
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="{Binding Order.Customer.User.FullName}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Padding="0"
+                                FontSize="12"
+                                Text="{Binding Order.CustomerId, StringFormat='Socio Clubers ID {0}'}"
+                                VerticalOptions="Start" />
+                            <Frame
+                                Grid.Column="2"
+                                Margin="10,0,0,0"
+                                Padding="0"
+                                BackgroundColor="Black"
+                                CornerRadius="9"
+                                VerticalOptions="EndAndExpand"
+                                WidthRequest="63">
+                                <Label
+                                    Padding="5,3,5,3"
+                                    FontSize="Micro"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Order.ConsumptionTypeId, Converter={StaticResource OrderStatusToStringValueConverter}}"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                            </Frame>
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Order.Id, StringFormat='#{0}'}"
+                                VerticalOptions="Start" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Padding="15,15"
+                        CornerRadius="15"
+                        HasShadow="True">
+                        <CollectionView
+                            Grid.Row="3"
+                            HeightRequest="120"
+                            ItemsSource="{Binding Products}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="60, *,Auto" RowDefinitions="Auto,Auto,Auto">
+                                        <Label
+                                            Padding="19,0,0,0"
+                                            FontSize="15"
+                                            Text="{Binding Quantity, StringFormat='{0}'}" />
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="15"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Product.Name}" />
+                                        <StackLayout Grid.Row="1" Grid.Column="1">
+                                            <Label
+                                                FontSize="12"
+                                                Text="{Binding OrderDetail}"
+                                                TextColor="{StaticResource secondary_text}" />
+                                            <Label
+                                                Margin="0,-7,0,0"
+                                                FontSize="12"
+                                                Text="{Binding Comments, StringFormat='Comentarios: {0}'}"
+                                                TextColor="{StaticResource secondary_text}" />
+                                        </StackLayout>
+                                        <Label
+                                            Grid.Column="2"
+                                            Padding="0,0,8,0"
+                                            Text="{Binding Product.HomePrice, StringFormat='{}{0:C0}'}"
+                                            TextColor="{StaticResource cluberspink}" />
+                                        <BoxView
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="3"
+                                            Margin="0,5,0,5"
+                                            HeightRequest="1"
+                                            HorizontalOptions="FillAndExpand"
+                                            Color="LightGray" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
+                    <Frame
+                        Padding="15,10"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        HeightRequest="35">
+                        <Grid
+                            ColumnDefinitions="60, *,Auto"
+                            RowDefinitions="Auto"
+                            VerticalOptions="Center">
+                            <Label
+                                Grid.Column="1"
+                                FontSize="15"
+                                LineBreakMode="TailTruncation"
+                                Text="Total"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="2"
+                                Padding="0,0,8,0"
+                                Text="{Binding Order.Total, StringFormat='{}{0:C0}'}"
+                                TextColor="{StaticResource cluberspink}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Padding="0,-8,0,10"
+                        CornerRadius="10"
+                        HasShadow="True"
+                        IsClippedToBounds="True">
+                        <Grid>
+                            <Label
+                                Grid.ColumnSpan="3"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"
+                                Text="Tiempo aproximado para la preparación del pedido:"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Margin="0,-20,0,0"
+                                Padding="0"
+                                BackgroundColor="Transparent"
+                                BorderColor="{StaticResource secondary_text}"
+                                CornerRadius="40"
+                                HeightRequest="80"
+                                HorizontalOptions="Center"
+                                Text="{Binding Order.AproxPreparationTime, StringFormat='{0} min'}"
+                                TextColor="{StaticResource cluberspink}"
+                                VerticalOptions="Start"
+                                WidthRequest="80" />
+
+                        </Grid>
+                    </Frame>
+
+                </StackLayout>
+            </ScrollView>
+            <custom:CustomButton
+                Command="{Binding IsVisibleCommand}"
+                Style="{StaticResource ButtonStyle}"
+                Text="Aceptar"
+                VerticalOptions="EndAndExpand" />
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="{StaticResource primary_deep}"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource GrayColor}" />
+    </AbsoluteLayout>
+</ContentPage>

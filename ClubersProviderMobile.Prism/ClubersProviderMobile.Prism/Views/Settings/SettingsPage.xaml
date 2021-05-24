@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.SettingsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:ClubersProviderMobile.Prism.Converters"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+
+        <AbsoluteLayout>
+            <StackLayout
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource background_page}">
+
+                <StackLayout
+                    Margin="10,20,10,20"
+                    Padding="0"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="10">
+                    <Frame Padding="0" CornerRadius="10">
+                        <ffimageloading:CachedImage
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="130"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding EstablishmentResponse.Result.EstablishmentLogoWEB}"
+                            WidthRequest="80" />
+                    </Frame>
+                    <Frame
+                        Padding="15,15"
+                        CornerRadius="20"
+                        HasShadow="True"
+                        HeightRequest="50">
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            RowDefinitions="Auto, Auto"
+                            VerticalOptions="Center">
+                            <Image
+                                Grid.RowSpan="2"
+                                HorizontalOptions="Center"
+                                Source="{Binding Establishment}" />
+
+                            <Label
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding User.Result.Establishment.Name}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontSize="12"
+                                Text="{Binding User.Result.Establishment.Category.Name}"
+                                TextColor="{StaticResource secondary_text}"
+                                VerticalOptions="Start" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Padding="15,10"
+                        CornerRadius="20"
+                        HasShadow="True"
+                        HeightRequest="125">
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            RowDefinitions="Auto, Auto, Auto"
+                            VerticalOptions="Center">
+                            <Image
+                                HeightRequest="25"
+                                HorizontalOptions="Center"
+                                Source="{Binding Mail}" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding EstablishmentResponse.Result.Email}"
+                                TextColor="{StaticResource secondary_text}"
+                                VerticalTextAlignment="Center" />
+                            <Image
+                                Grid.Row="1"
+                                HeightRequest="25"
+                                HorizontalOptions="Center"
+                                Source="{Binding Telephone}" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding EstablishmentResponse.Result.BusinessPhoneNumber}"
+                                TextColor="{StaticResource secondary_text}"
+                                VerticalTextAlignment="Center" />
+                            <Image
+                                Grid.Row="2"
+                                HeightRequest="25"
+                                HorizontalOptions="Center"
+                                Source="{Binding Direction}" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Text="{Binding EstablishmentResponse.Result.Address}"
+                                TextColor="{StaticResource secondary_text}"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Padding="15,15"
+                        CornerRadius="20"
+                        HasShadow="True"
+                        HeightRequest="50"
+                        IsVisible="{Binding EstablishmentResponse.Result.EstablishmentHours.Onsite}">
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            RowDefinitions="Auto, Auto"
+                            VerticalOptions="Center">
+                            <Image
+                                Grid.RowSpan="2"
+                                HorizontalOptions="Center"
+                                Source="{Binding HomeService}" />
+
+                            <Label
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Servicio en sitio"
+                                VerticalOptions="EndAndExpand" />
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                Orientation="Horizontal">
+                                <Label Text="Hoy:" TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible, Converter={StaticResource InverseBool}}"
+                                    Text="Cerrado"
+                                    TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible}"
+                                    Text="{Binding EstablishmentResponse.Result.EstablishmentHours.StartOnsiteService, StringFormat='{}{0:hh\\:mm} a'}"
+                                    TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible}"
+                                    Text="{Binding EstablishmentResponse.Result.EstablishmentHours.EndOnsiteService, StringFormat='{}{0:hh\\:mm} hrs'}"
+                                    TextColor="{StaticResource secondary_text}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Padding="15,15"
+                        CornerRadius="20"
+                        HasShadow="True"
+                        HeightRequest="50"
+                        IsVisible="{Binding EstablishmentResponse.Result.EstablishmentHours.Home}">
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            RowDefinitions="Auto, Auto"
+                            VerticalOptions="Center">
+
+                            <Image
+                                Grid.RowSpan="2"
+                                HorizontalOptions="Center"
+                                Source="{Binding OnSiteService}" />
+
+                            <Label
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Servicio a domicilio"
+                                VerticalOptions="EndAndExpand" />
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                Orientation="Horizontal">
+                                <Label Text="Hoy:" TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible, Converter={StaticResource InverseBool}}"
+                                    Text="Cerrado"
+                                    TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible}"
+                                    Text="{Binding EstablishmentResponse.Result.EstablishmentHours.StartHomeService, StringFormat='{}{0:hh\\:mm} a'}"
+                                    TextColor="{StaticResource secondary_text}" />
+                                <Label
+                                    IsVisible="{Binding IsVisible}"
+                                    Text="{Binding EstablishmentResponse.Result.EstablishmentHours.EndHomeService, StringFormat='{}{0:hh\\:mm} hrs'}"
+                                    TextColor="{StaticResource secondary_text}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+            <ActivityIndicator
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource primary_deep}"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsRunning}"
+                IsVisible="{Binding IsRunning}"
+                VerticalOptions="Center"
+                Color="{StaticResource GrayColor}" />
+        </AbsoluteLayout>
+    </ScrollView>
+
+</ContentPage>

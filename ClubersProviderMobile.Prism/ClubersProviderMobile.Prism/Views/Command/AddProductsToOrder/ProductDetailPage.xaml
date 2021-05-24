@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.ProductDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout Padding="15,10">
+        <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <ScrollView>
+                <StackLayout>
+                    <Frame Padding="0" CornerRadius="15">
+                        <StackLayout>
+                            <Grid Padding="10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <ffimageloading:CachedImage
+                                    Grid.RowSpan="3"
+                                    Aspect="AspectFill"
+                                    CacheDuration="50"
+                                    ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                    HeightRequest="80"
+                                    LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                    RetryCount="3"
+                                    RetryDelay="600"
+                                    Source="{Binding SelectedProduct.ProductFiles[0].Files.Url}"
+                                    WidthRequest="80">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:RoundedTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding SelectedProduct.Name}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding SelectedProduct.OnSitePrice, StringFormat='{}{0:C0}.00'}"
+                                    TextColor="{StaticResource cluberspink}" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Text="{Binding SelectedProduct.Description}"
+                                    TextColor="{StaticResource GrayColor}" />
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                    <Label
+                        Margin="7,10,0,10"
+                        FontAttributes="Bold"
+                        Text="Elige tus ingredientes:" />
+                    <Frame Padding="10,5">
+                        <CollectionView
+                            x:Name="ComponentsList"
+                            HeightRequest="120"
+                            ItemsSource="{Binding Ingredients}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <StackLayout>
+                                    <Label
+                                        Margin="10,25,10,10"
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        HorizontalOptions="Fill"
+                                        HorizontalTextAlignment="Center"
+                                        Text="No hay ingredientes " />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label Text="{Binding Name}" VerticalOptions="Center" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            IsChecked="{Binding Checked}"
+                                            Color="{StaticResource cluberspink}">
+                                            <CheckBox.Behaviors>
+                                                <prism:EventToCommandBehavior
+                                                    Command="{Binding Source={x:Reference ComponentsList}, Path=BindingContext.ComponentsCheckChangedCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    EventName="CheckedChanged" />
+                                            </CheckBox.Behaviors>
+                                        </CheckBox>
+                                        <BoxView
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            BackgroundColor="LightGray"
+                                            HeightRequest="1"
+                                            HorizontalOptions="FillAndExpand" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
+                    <Label
+                        Margin="7,10,0,10"
+                        FontAttributes="Bold"
+                        Text="Extras:" />
+                    <Frame Padding="10,5">
+                        <CollectionView
+                            x:Name="SecondComponentsList"
+                            HeightRequest="120"
+                            ItemsSource="{Binding Additionals}"
+                            SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <StackLayout>
+                                    <Label
+                                        Margin="10,25,10,10"
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        HorizontalOptions="Fill"
+                                        HorizontalTextAlignment="Center"
+                                        Text="No hay extras" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="50*, 50*" RowDefinitions="Auto, Auto, Auto">
+                                        <Label Text="{Binding Name}" VerticalOptions="Center" />
+                                        <Label
+                                            Grid.Row="1"
+                                            FontSize="Micro"
+                                            Text="{Binding Price, StringFormat=' + {0:C}'}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            IsVisible="False"
+                                            Text="{Binding Availability.Name}"
+                                            VerticalOptions="Center">
+                                            <Label.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Availability.Id}"
+                                                    TargetType="Label"
+                                                    Value="2">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            IsVisible="False"
+                                            Text="{Binding Availability.Name}"
+                                            VerticalOptions="Center">
+                                            <Label.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Availability.Id}"
+                                                    TargetType="Label"
+                                                    Value="3">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <StackLayout
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal">
+                                            <Entry
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                HorizontalOptions="FillAndExpand"
+                                                IsVisible="{Binding Availability.IsVisible}"
+                                                Keyboard="Numeric"
+                                                Text="{Binding Source={x:Reference ComponentQuantityStepper}, Path=Value}" />
+                                            <Stepper
+                                                x:Name="ComponentQuantityStepper"
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                HorizontalOptions="FillAndExpand"
+                                                Increment="1"
+                                                IsVisible="{Binding Availability.IsVisible}"
+                                                Maximum="99"
+                                                Minimum="0"
+                                                Value="{Binding Quantity}">
+                                                <Stepper.Behaviors>
+                                                    <prism:EventToCommandBehavior
+                                                        Command="{Binding Source={x:Reference SecondComponentsList}, Path=BindingContext.ValueChangedCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        EventName="ValueChanged" />
+                                                </Stepper.Behaviors>
+                                            </Stepper>
+                                        </StackLayout>
+                                        <BoxView
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="2"
+                                            BackgroundColor="LightGray"
+                                            HeightRequest="1"
+                                            HorizontalOptions="FillAndExpand" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
+                    <StackLayout>
+                        <Label
+                            Margin="7,10,0,10"
+                            FontAttributes="Bold"
+                            Text="Comentarios o instrucciones" />
+                        <Editor
+                            AutoSize="TextChanges"
+                            BackgroundColor="White"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding Comments}"
+                            VerticalOptions="FillAndExpand" />
+                    </StackLayout>
+
+                </StackLayout>
+            </ScrollView>
+            <Grid ColumnDefinitions="*,*" RowDefinitions="45">
+                <Entry
+                    Grid.Column="0"
+                    FontSize="Small"
+                    Keyboard="Numeric"
+                    Text="{Binding Source={x:Reference QuantityStepper}, Path=Value}" />
+                <Stepper
+                    x:Name="QuantityStepper"
+                    Grid.Column="1"
+                    Increment="1"
+                    Maximum="10"
+                    Minimum="1"
+                    Value="{Binding Quantity}">
+                    <!--<Stepper.Behaviors>
+                        <prism:EventToCommandBehavior
+                                Command="{Binding ValueChangedCommand}"
+                                CommandParameter="{Binding .}"
+                                EventName="ValueChanged" />
+                    </Stepper.Behaviors>-->
+                </Stepper>
+            </Grid>
+            <custom:CustomButton
+                Command="{Binding GoEstablishmentPageCommand}"
+                IsEnabled="{Binding IsProceedEnabled}"
+                Style="{StaticResource ButtonStyle}"
+                Text="{Binding OnSiteTotal, StringFormat='Añadir: {0:C0}'}" />
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

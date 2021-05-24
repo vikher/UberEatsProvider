@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.IdCustomerPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <StackLayout
+            Padding="20,10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+
+            <Frame
+                Margin="0,10,0,0"
+                Padding="15,10"
+                CornerRadius="15">
+                <StackLayout HorizontalOptions="Center">
+                    <Label LineBreakMode="WordWrap">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    FontSize="13"
+                                    Text="El ID del socio consumidor es el que ingresó &#x0a;al completar sus datos.&#x0a;"
+                                    TextColor="{StaticResource primary_text}" />
+                                <Span
+                                    FontSize="13"
+                                    Text="Para esta opción solo se admitirá el "
+                                    TextColor="{StaticResource primary_text}" />
+                                <Span
+                                    FontSize="13"
+                                    Text="pago en &#x0a;efectivo.&#x0a;"
+                                    TextColor="{StaticResource cluberspink}" />
+                                <Span
+                                    FontSize="13"
+                                    Text="Es necesario notificar al socio consumidor."
+                                    TextColor="{StaticResource primary_text}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Frame>
+
+            <Frame
+                Margin="0,10,0,0"
+                Padding="0"
+                CornerRadius="15">
+                <Entry
+                    BackgroundColor="White"
+                    FontSize="Small"
+                    HeightRequest="55"
+                    Placeholder="Ingresar el ID (INE)"
+                    PlaceholderColor="{StaticResource secondary_text}"
+                    Text="{Binding Id}"
+                    TextColor="{StaticResource primary_text}" />
+            </Frame>
+            <custom:CustomButton
+                Command="{Binding GoOpenCommandPageCommand}"
+                Style="{StaticResource ButtonStyle}"
+                Text="Aceptar"
+                VerticalOptions="EndAndExpand" />
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+
+    </AbsoluteLayout>
+</ContentPage>

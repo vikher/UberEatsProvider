@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.CommandByCustomer"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <StackLayout
+            Padding="10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <ScrollView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Frame
+                        Padding="15,10"
+                        CornerRadius="15"
+                        HasShadow="True"
+                        HeightRequest="50">
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            RowDefinitions="Auto, Auto"
+                            VerticalOptions="Center">
+
+                            <ffimageloading:CachedImage
+                                Grid.RowSpan="2"
+                                Aspect="AspectFill"
+                                CacheDuration="50"
+                                ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                HeightRequest="50"
+                                LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                RetryCount="3"
+                                RetryDelay="600"
+                                Source="{Binding Customer.User.ProfileImageUrl}"
+                                VerticalOptions="Center"
+                                WidthRequest="50">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+                            <Label
+                                Grid.Column="1"
+                                Margin="10,0"
+                                Padding="0"
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="{Binding Customer.User.FullName}"
+                                VerticalOptions="EndAndExpand" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Padding="0"
+                                FontSize="12"
+                                Text="{Binding Customer.Id, StringFormat='Socio Clubers ID {0}'}"
+                                VerticalOptions="Start" />
+
+                        </Grid>
+                    </Frame>
+
+                    <CollectionView
+                        x:Name="productsCollectionView"
+                        Grid.Row="2"
+                        HeightRequest="250"
+                        ItemsSource="{Binding Products}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <Label
+                                    Margin="10,25,10,10"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Center"
+                                    Text="No existe registro de productos" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Reveal">
+                                            <SwipeItem
+                                                BackgroundColor="White"
+                                                Command="{Binding Source={x:Reference productsCollectionView}, Path=BindingContext.DeleteCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IconImageSource="http://clubers.qagperti.tk/Resources/icons/delete.png" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame
+                                        Padding="0"
+                                        CornerRadius="20"
+                                        HasShadow="True">
+                                        <Grid
+                                            Padding="10,1"
+                                            ColumnDefinitions="Auto, *, Auto, Auto"
+                                            RowDefinitions="Auto,Auto,Auto">
+                                            <Image
+                                                Grid.RowSpan="3"
+                                                HeightRequest="50"
+                                                HorizontalOptions="Start"
+                                                Source="{Binding Product.ProductFiles[0].Files.Url}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="50" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontAttributes="Bold"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Product.Name}"
+                                                TextColor="{StaticResource primary_text}"
+                                                VerticalTextAlignment="Start" />
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                FontAttributes="Bold"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Subtotal, StringFormat='{0:C}'}"
+                                                TextColor="{StaticResource primary_deep}"
+                                                VerticalOptions="End"
+                                                VerticalTextAlignment="Center" />
+                                            <StackLayout
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="3"
+                                                Spacing="0">
+                                                <Label
+                                                    Margin="0"
+                                                    Text="{Binding OrderDetail}"
+                                                    TextColor="{StaticResource secondary_text}" />
+                                                <Label
+                                                    Margin="0"
+                                                    Text="{Binding Comments, StringFormat='Comentarios: {0}'}"
+                                                    TextColor="{StaticResource secondary_text}" />
+                                            </StackLayout>
+                                            <Entry
+                                                Grid.RowSpan="2"
+                                                Grid.Column="2"
+                                                BackgroundColor="White"
+                                                FontSize="Small"
+                                                Keyboard="Numeric"
+                                                Text="{Binding Source={x:Reference QuantityStepper}, Path=Value}" />
+                                            <Stepper
+                                                x:Name="QuantityStepper"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="3"
+                                                Increment="1"
+                                                Maximum="10"
+                                                Minimum="1"
+                                                Value="{Binding Quantity}">
+                                                <Stepper.Behaviors>
+                                                    <prism:EventToCommandBehavior
+                                                        Command="{Binding Source={x:Reference productsCollectionView}, Path=BindingContext.ValueChangedCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        EventName="ValueChanged" />
+                                                </Stepper.Behaviors>
+                                            </Stepper>
+                                        </Grid>
+                                    </Frame>
+
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </Grid>
+            </ScrollView>
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Frame
+                    Padding="15,10"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="35">
+                    <Grid
+                        ColumnDefinitions="45, *,Auto"
+                        RowDefinitions="Auto"
+                        VerticalOptions="Center">
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            LineBreakMode="TailTruncation"
+                            Text="Total"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="2"
+                            Padding="0,0,8,0"
+                            Text="{Binding Total, StringFormat='{}{0:C0}'}"
+                            TextColor="{StaticResource primary_deep}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+                <custom:CustomButton
+                    Command="{Binding GoCollaboratorPageCommand}"
+                    Style="{StaticResource ButtonStyle}"
+                    Text="Agregar mesero" />
+            </StackLayout>
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

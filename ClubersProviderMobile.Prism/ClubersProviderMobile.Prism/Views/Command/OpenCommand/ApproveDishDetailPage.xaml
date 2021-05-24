@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.ApproveDishDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <Grid
+            Padding="10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="{StaticResource background_page}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ffimageloading:CachedImage
+                Aspect="AspectFill"
+                CacheDuration="50"
+                ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                HeightRequest="60"
+                LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                RetryCount="3"
+                RetryDelay="600"
+                Source="{Binding Product.ImageUrl}"
+                WidthRequest="60" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="{Binding Product.Name}"
+                    TextColor="{StaticResource primary_dark}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="{Binding Product.Description, StringFormat='Descripción: {0}'}"
+                    TextColor="{StaticResource primary_dark}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{Binding Product.Price, StringFormat='{}{0:C0}.00'}"
+                    TextColor="{StaticResource primary_dark}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="{Binding Product.Quantity, StringFormat='Cantidad: {0}'}"
+                    TextColor="{StaticResource primary_dark}" />
+            </Grid>
+        </Grid>
+        <StackLayout />
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

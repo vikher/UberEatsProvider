@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.OnSiteOrdersPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <StackLayout
+            Padding="10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <RefreshView
+                Command="{Binding RefreshViewCommand}"
+                IsRefreshing="{Binding IsRefreshing}"
+                RefreshColor="{StaticResource cluberspink}">
+            <CollectionView
+                ItemsSource="{Binding Orders}"
+                SelectedItem="{Binding SelectedOrder}"
+                SelectionChangedCommand="{Binding OrderSelectedCommand}"
+                SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="15" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label
+                            Margin="10,25,10,10"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            Text="No existen ordenes completadas" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            CornerRadius="15"
+                            HasShadow="True"
+                            HeightRequest="113"
+                            IsClippedToBounds="True">
+                            <StackLayout>
+                                <Grid
+                                    Padding="0"
+                                    ColumnDefinitions="*,Auto"
+                                    RowDefinitions="Auto,Auto">
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontSize="12"
+                                        Text="{Binding TableNumber, StringFormat='Mesa #{0}'}"
+                                        VerticalOptions="End" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        Text="{Binding StartDate, StringFormat='{0:h:mm tt}'}"
+                                        VerticalOptions="End" />
+                                </Grid>
+                                <BoxView
+                                    BackgroundColor="LightGray"
+                                    HeightRequest="1"
+                                    HorizontalOptions="FillAndExpand" />
+
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    RowDefinitions="Auto, Auto"
+                                    VerticalOptions="Center">
+                                    <ffimageloading:CachedImage
+                                        Grid.RowSpan="2"
+                                        Margin="0,0,5,0"
+                                        Aspect="AspectFill"
+                                        CacheDuration="50"
+                                        ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                        HeightRequest="55"
+                                        LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                        RetryCount="3"
+                                        RetryDelay="600"
+                                        Source="{Binding Customer.User.ProfileImageUrl}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="55">
+                                        <ffimageloading:CachedImage.Transformations>
+                                            <fftransformations:CircleTransformation />
+                                        </ffimageloading:CachedImage.Transformations>
+                                    </ffimageloading:CachedImage>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="0,5,0,0"
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding Customer.User.FullName}"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontSize="12"
+                                            Text="Mesero:"
+                                            VerticalOptions="Start"
+                                            VerticalTextAlignment="Start" />
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Text="{Binding EstablishmentStaff.FullName}"
+                                            VerticalOptions="Start"
+                                            VerticalTextAlignment="Start" />
+                                    </StackLayout>
+                                </Grid>
+                                <BoxView
+                                    BackgroundColor="LightGray"
+                                    HeightRequest="1"
+                                    HorizontalOptions="FillAndExpand" />
+                                <Grid
+                                    Padding="0"
+                                    ColumnDefinitions="*,Auto"
+                                    RowDefinitions="Auto,Auto">
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="End">
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Start"
+                                            Text="Total:" />
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Start"
+                                            Text="{Binding Total, StringFormat='{0:C}'}"
+                                            TextColor="{StaticResource cluberspink}" />
+                                    </StackLayout>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="12"
+                                        Text="{Binding TotalQuantityOfProducts, StringFormat='Cantidad: {0}'}"
+                                        VerticalOptions="End" />
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                       
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            </RefreshView>
+
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center" />
+    </AbsoluteLayout>
+</ContentPage>

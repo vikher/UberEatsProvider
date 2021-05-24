@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.AddedTipPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <StackLayout BackgroundColor="{StaticResource background_page}" Spacing="15">
+        <StackLayout.Padding>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="10,40,10,0" />
+                <On Platform="Android" Value="10,15,10,0" />
+            </OnPlatform>
+        </StackLayout.Padding>
+        <Frame
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0"
+            BorderColor="{StaticResource accent}"
+            CornerRadius="10"
+            HasShadow="true">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ffimageloading:CachedImage
+                    Grid.RowSpan="2"
+                    Aspect="AspectFill"
+                    CacheDuration="50"
+                    ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                    HeightRequest="60"
+                    LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                    RetryCount="3"
+                    RetryDelay="600"
+                    Source="{Binding Collaborator.ImageUrl}"
+                    WidthRequest="60">
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation />
+                    </ffimageloading:CachedImage.Transformations>
+                </ffimageloading:CachedImage>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    FontAttributes="Bold"
+                    Text="{Binding Collaborator.FullName}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    FontAttributes="Italic"
+                    HorizontalOptions="Start"
+                    Text="Mesero que atendió"
+                    VerticalOptions="Start" />
+            </Grid>
+        </Frame>
+        <Label
+            FontAttributes="Bold"
+            FontSize="Medium"
+            Text="Propina" />
+        <Frame BackgroundColor="White" CornerRadius="15">
+            <CollectionView
+                HeightRequest="90"
+                ItemsSource="{Binding Tips}"
+                SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <StackLayout>
+                        <Label
+                            Margin="10,25,10,10"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            Text="No hay Propinas" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="7.5"
+                            BackgroundColor="White"
+                            HasShadow="False"
+                            Visual="Material">
+                            <StackLayout Spacing="4">
+                                <Frame
+                                    Margin="0,0,0,4"
+                                    BackgroundColor="{StaticResource accent}"
+                                    HeightRequest="28"
+                                    Visual="Material"
+                                    WidthRequest="28">
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Amount, StringFormat='{} {0:C0}'}"
+                                        TextColor="White"
+                                        VerticalOptions="Center" />
+                                </Frame>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+        <Label
+            FontAttributes="Bold"
+            FontSize="Medium"
+            Text="Resumen" />
+        <Frame>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Italic"
+                    Text="{Binding QuantityProducts, StringFormat='Productos: ({0})'}" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    FontAttributes="Italic"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding TotalPayable, StringFormat='{}{0:C0}.00'}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontAttributes="Italic"
+                    Text="Propina:" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontAttributes="Italic"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Tip.Amount, StringFormat='{}{0:C0}.00'}" />
+            </Grid>
+        </Frame>
+        <Grid>
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                FontAttributes="Bold"
+                Text="Total a pagar" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="End"
+                Text="{Binding TotalPayable, StringFormat='{}{0:C0}.00'}"
+                TextColor="{StaticResource cluberspink}" />
+        </Grid>
+        <StackLayout
+            Padding="10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <Button
+                Command="{Binding GoPaymentRegCommand}"
+                HorizontalOptions="FillAndExpand"
+                Text="Continuar"
+                VerticalOptions="EndAndExpand" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

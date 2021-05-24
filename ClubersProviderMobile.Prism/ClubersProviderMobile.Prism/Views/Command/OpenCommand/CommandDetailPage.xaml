@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Command.CommandDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Padding="15,10"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="50">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        RowDefinitions="Auto, Auto"
+                        VerticalOptions="Center">
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="50"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding User}"
+                            VerticalOptions="Center"
+                            WidthRequest="50">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="{Binding Order.Customer.User.FullName}"
+                            VerticalOptions="EndAndExpand" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            Padding="0"
+                            FontSize="12"
+                            Text="{Binding Order.CustomerId, StringFormat='Socio Clubers ID {0}'}"
+                            VerticalOptions="Start" />
+
+                    </Grid>
+                </Frame>
+                <StackLayout
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Padding="15,10"
+                    HorizontalOptions="Center">
+                    <Grid
+                        Margin="40,0,0,10"
+                        ColumnDefinitions="Auto,*"
+                        HorizontalOptions="Center"
+                        RowDefinitions="Auto, Auto"
+                        VerticalOptions="Center">
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="40"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding WaiterIcon}"
+                            VerticalOptions="Center"
+                            WidthRequest="40">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Text="{Binding Order.EstablishmentStaff.FullName}"
+                            VerticalOptions="EndAndExpand" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,-5,0,0"
+                            Padding="0"
+                            FontSize="12"
+                            Text="Mesero"
+                            VerticalOptions="Start" />
+                    </Grid>
+                    <Grid
+                        Margin="95,0,0,0"
+                        Padding="0"
+                        ColumnDefinitions="30, *"
+                        RowDefinitions="Auto,Auto">
+                        <Label
+                            Grid.ColumnSpan="2"
+                            Margin="0,0,0,-30"
+                            FontAttributes="Bold"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Start"
+                            Text="Efectivo"
+                            VerticalTextAlignment="Center" />
+                        <Image
+                            Grid.Row="1"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Source="{Binding WayToPay}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="Micro"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Center"
+                            Text="Forma de pago"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+
+                    <Grid
+                        Margin="80,-25,0,-10"
+                        Padding="0"
+                        ColumnDefinitions="60, *"
+                        RowDefinitions="Auto,Auto">
+                        <Image
+                            Grid.RowSpan="2"
+                            HeightRequest="70"
+                            HorizontalOptions="Start"
+                            Source="{Binding OnSite}"
+                            VerticalOptions="Center" />
+
+                        <Frame
+                            Grid.Column="1"
+                            Margin="0,20,0,0"
+                            Padding="15,1"
+                            BackgroundColor="Black"
+                            CornerRadius="8"
+                            HorizontalOptions="Start"
+                            VerticalOptions="End">
+                            <Label
+                                FontSize="Micro"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Order.TableNumber, StringFormat='Mesa {0}'}"
+                                TextColor="White"
+                                VerticalTextAlignment="Center" />
+                        </Frame>
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,-18,0,0"
+                            FontSize="Micro"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Order.Id, StringFormat='#{0}'}"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+
+                </StackLayout>
+
+                <Frame
+                    Grid.Row="2"
+                    Padding="15,15"
+                    CornerRadius="15"
+                    HasShadow="True">
+                    <CollectionView HeightRequest="120" ItemsSource="{Binding Products}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="60, *,Auto" RowDefinitions="Auto,Auto,Auto">
+                                    <Label
+                                        Padding="19,0,0,0"
+                                        FontSize="15"
+                                        Text="{Binding Quantity, StringFormat='{0}'}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="15"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding Product.Name}" />
+                                    <StackLayout Grid.Row="1" Grid.Column="1">
+                                        <Label
+                                            FontSize="12"
+                                            Text="{Binding Product.Description}"
+                                            TextColor="{StaticResource secondary_text}" />
+                                        <Label
+                                            Margin="0,-7,0,0"
+                                            FontSize="12"
+                                            Text="{Binding Comments, StringFormat='Comentarios: {0}'}"
+                                            TextColor="{StaticResource secondary_text}" />
+                                    </StackLayout>
+                                    <Label
+                                        Grid.Column="2"
+                                        Padding="0,0,8,0"
+                                        Text="{Binding Product.OnSitePrice, StringFormat='{}{0:C0}'}"
+                                        TextColor="{StaticResource cluberspink}" />
+                                    <BoxView
+                                        Grid.Row="2"
+                                        Grid.ColumnSpan="3"
+                                        Margin="0,5,0,5"
+                                        HeightRequest="1"
+                                        HorizontalOptions="FillAndExpand"
+                                        Color="LightGray" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+                <Frame
+                    Grid.Row="3"
+                    Padding="10,5"
+                    CornerRadius="10">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Margin="130,0,0,0"
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                HorizontalOptions="Center"
+                                Text="Propina" />
+                            <Label
+                                Padding="0,0,0,0"
+                                FontSize="Small"
+                                HorizontalOptions="EndAndExpand"
+                                Text="{Binding SelectedTip.Amount, StringFormat='{0:C}'}"
+                                TextColor="{StaticResource cluberspink}"
+                                VerticalOptions="Center" />
+                        </StackLayout>
+                        <Grid ColumnDefinitions="Auto, Auto">
+                            <CollectionView
+                                HeightRequest="33"
+                                ItemsSource="{Binding TipResponse.Result}"
+                                SelectedItem="{Binding SelectedTip, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <CollectionView.EmptyView>
+                                    <StackLayout>
+                                        <Label
+                                            Margin="10,0,10,10"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            HorizontalOptions="Fill"
+                                            HorizontalTextAlignment="Center"
+                                            Text="No hay Propinas" />
+                                    </StackLayout>
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout HorizontalItemSpacing="10" Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid
+                                            ColumnSpacing="10"
+                                            InputTransparent="True"
+                                            RowSpacing="10">
+                                            <Button
+                                                Margin="0,0,15,0"
+                                                Padding="0"
+                                                BackgroundColor="{StaticResource background_page}"
+                                                BorderColor="Accent"
+                                                BorderWidth="0"
+                                                CornerRadius="10"
+                                                FontSize="Micro"
+                                                HeightRequest="30"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding Amount, StringFormat='{} {0:C0}'}"
+                                                TextColor="{StaticResource primary_text}"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="60" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource background_page}"
+                                BorderColor="Accent"
+                                Command="{Binding CustomTipCommand}"
+                                CornerRadius="10"
+                                FontSize="Micro"
+                                HeightRequest="30"
+                                HorizontalOptions="Center"
+                                Text="Otro"
+                                TextColor="{StaticResource primary_text}"
+                                VerticalOptions="Center"
+                                WidthRequest="60" />
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+                <Frame
+                    Grid.Row="4"
+                    Padding="15,10"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="35">
+                    <Grid
+                        ColumnDefinitions="60, *,Auto"
+                        RowDefinitions="Auto"
+                        VerticalOptions="Center">
+                        <Label
+                            Grid.Column="1"
+                            FontSize="15"
+                            LineBreakMode="TailTruncation"
+                            Text="Total"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="2"
+                            Padding="0,0,8,0"
+                            Text="{Binding Total, StringFormat='{}{0:C0}'}"
+                            TextColor="{StaticResource cluberspink}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <custom:CustomButton
+                    Grid.Row="5"
+                    BackgroundColor="White"
+                    BorderColor="{StaticResource secondary_text}"
+                    BorderWidth="1"
+                    Command="{Binding RequestReviewCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource ButtonStyle}"
+                    Text="Solicitar revisión"
+                    TextColor="{StaticResource primary_text}"
+                    VerticalOptions="EndAndExpand" />
+                <custom:CustomButton
+                    Grid.Row="6"
+                    Command="{Binding GoPaymentRegCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Style="{StaticResource ButtonStyle}"
+                    Text="Registrar pago"
+                    VerticalOptions="EndAndExpand" />
+            </Grid>
+        </ScrollView>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

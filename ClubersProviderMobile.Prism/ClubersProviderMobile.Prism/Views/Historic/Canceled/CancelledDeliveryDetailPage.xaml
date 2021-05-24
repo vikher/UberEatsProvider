@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.CancelledDeliveryDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout Padding="15" Spacing="10">
+                <Frame
+                    Padding="15,10"
+                    BackgroundColor="Transparent"
+                    CornerRadius="12"
+                    HasShadow="True"
+                    HeightRequest="20">
+                    <Grid
+                        ColumnDefinitions="50,Auto,*"
+                        RowDefinitions="Auto"
+                        VerticalOptions="Center">
+
+                        <Label
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            Padding="0"
+                            FontSize="Small"
+                            Text="Cancelado"
+                            TextColor="{StaticResource secondary_text}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Column="2"
+                            Padding="0,3,0,0"
+                            FontSize="Micro"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Order.StartDate, StringFormat='{0:d MMMM yyyy}'}"
+                            TextColor="{StaticResource secondary_text}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Frame>
+                <Frame
+                    Padding="15,10"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="50">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        RowDefinitions="Auto, Auto"
+                        VerticalOptions="Center">
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="50"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding Delivery}"
+                            VerticalOptions="Center"
+                            WidthRequest="50">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding Order.Delivery.DeliveryMan.Name}"
+                            VerticalOptions="EndAndExpand" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontSize="12"
+                            Text="Repartidor"
+                            VerticalOptions="Start" />
+                    </Grid>
+                </Frame>
+                <Frame
+                    Padding="15,10"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="50">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        RowDefinitions="Auto, Auto"
+                        VerticalOptions="Center">
+                        <ffimageloading:CachedImage
+                            Grid.RowSpan="2"
+                            Aspect="AspectFill"
+                            CacheDuration="50"
+                            ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                            HeightRequest="50"
+                            LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                            RetryCount="3"
+                            RetryDelay="600"
+                            Source="{Binding Order.Customer.User.ProfileImageUrl}"
+                            VerticalOptions="Center"
+                            WidthRequest="50">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding Order.Customer.User.FullName}"
+                            VerticalOptions="EndAndExpand" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0"
+                            Padding="0"
+                            FontSize="12"
+                            Text="{Binding Order.CustomerId, StringFormat='Socio Clubers ID {0}'}"
+                            VerticalOptions="Start" />
+                    </Grid>
+                </Frame>
+                <Frame
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0"
+                    CornerRadius="15"
+                    HasShadow="True">
+                    <Grid
+                        Padding="1"
+                        ColumnDefinitions="2*,*"
+                        RowDefinitions="Auto,Auto,Auto">
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,0,0,10"
+                            FontAttributes="Bold"
+                            Text="Cancelado por sistema"
+                            TextColor="{StaticResource primary_text}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Cargo de productos:"
+                            TextColor="{StaticResource primary_text}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Cargo de viaje:"
+                            TextColor="{StaticResource primary_text}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,0,0,10"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding Order.StartDate, StringFormat='{0:h:mm tt}'}"
+                            TextColor="{StaticResource GrayColor}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="End"
+                            Text="Clubers"
+                            TextColor="{StaticResource cluberspink}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="End"
+                            Text="Repartidor"
+                            TextColor="{StaticResource primary_deep}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Frame>
+            </StackLayout>
+
+        </ScrollView>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

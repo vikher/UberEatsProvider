@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.Orders.NewOrdersPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:ClubersProviderMobile.Prism.CustomRender"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:local="clr-namespace:ClubersCustomerMobile.Prism.Converters"
+    xmlns:local1="clr-namespace:ClubersProviderMobile.Prism.Converters"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <Page.Resources>
+        <local:OrderTypeValueConverter x:Key="OrderTypeValueConverter" />
+        <local1:OrderStatusToStringValueConverter x:Key="OrderStatusToStringValueConverter" />
+    </Page.Resources>
+    <ScrollView>
+        <AbsoluteLayout>
+            <StackLayout
+                Padding="10"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All">
+                <Frame
+                    Margin="0,0,0,5"
+                    Padding="0"
+                    CornerRadius="15"
+                    HasShadow="True"
+                    HeightRequest="40"
+                    VerticalOptions="Center">
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                        <Label
+                            Margin="20,0"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            Text="Recibiendo pedidos"
+                            VerticalOptions="Center" />
+                        <Switch
+                            HorizontalOptions="EndAndExpand"
+                            IsToggled="{Binding IsReceivingOrders}"
+                            OnColor="{StaticResource cluberspink}"
+                            ThumbColor="White"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+                <RefreshView
+                    Command="{Binding RefreshViewCommand}"
+                    IsRefreshing="{Binding IsRefreshing}"
+                    RefreshColor="{StaticResource cluberspink}">
+                    <CollectionView
+                        HeightRequest="150"
+                        ItemsSource="{Binding NewOrders}"
+                        SelectedItem="{Binding SelectedOrder}"
+                        SelectionChangedCommand="{Binding NewOrderSelectedCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="15" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <Label
+                                    Margin="10,25,10,10"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Center"
+                                    Text="No hay ordenes nuevas" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Margin="5"
+                                    Padding="3,10,15,30"
+                                    BackgroundColor="White"
+                                    CornerRadius="15"
+                                    HasShadow="True"
+                                    HeightRequest="35"
+                                    VerticalOptions="Center">
+                                    <Grid
+                                        Grid.Row="2"
+                                        Margin="0"
+                                        Padding="0"
+                                        ColumnDefinitions="60, Auto, *"
+                                        RowDefinitions="Auto"
+                                        RowSpacing="0"
+                                        VerticalOptions="Center">
+                                        <Image
+                                            Grid.RowSpan="2"
+                                            Margin="0"
+                                            Source="{Binding ConsumptionTypeId, Converter={StaticResource OrderTypeValueConverter}}"
+                                            VerticalOptions="Center" />
+                                        <StackLayout
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                Padding="0,3,5,3"
+                                                FontSize="12"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding ConsumptionTypeId, Converter={StaticResource OrderStatusToStringValueConverter}}"
+                                                VerticalOptions="Start"
+                                                WidthRequest="72" />
+                                            <Label
+                                                Padding="12,3"
+                                                Text="{Binding Id, StringFormat='#{0}'}"
+                                                VerticalOptions="Center" />
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="2" HorizontalOptions="EndAndExpand">
+                                            <Label
+                                                FontSize="12"
+                                                Text="{Binding TotalQuantityOfProducts, StringFormat='{0} productos'}"
+                                                TextColor="{StaticResource secondary_text}"
+                                                VerticalOptions="End" />
+                                            <Label Text="{Binding StartDate, StringFormat='{0:h:mm tt}'}" VerticalOptions="End" />
+                                            <!--<Label
+                                                FontSize="12"
+                                                Text="{Binding TableNumber, StringFormat='mesa {0}'}"
+                                                TextColor="{StaticResource secondary_text}"
+                                                VerticalOptions="End" />-->
+                                        </StackLayout>
+                                    </Grid>
+
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+                <StackLayout>
+                    <custom:CustomButton
+                        Command="{Binding PauseTodayCommand}"
+                        Style="{StaticResource ButtonStyle}"
+                        Text="Pausar pedidos por hoy" />
+                    <custom:CustomButton
+                        Command="{Binding PauseThirtyMinutesCommand}"
+                        Style="{StaticResource ButtonStyle}"
+                        Text="Pausar pedidos por 30 min" />
+
+                </StackLayout>
+            </StackLayout>
+            <ActivityIndicator
+                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource primary_deep}"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsRunning}"
+                IsVisible="{Binding IsRunning}"
+                VerticalOptions="Center"
+                Color="{StaticResource GrayColor}" />
+        </AbsoluteLayout>
+    </ScrollView>
+</ContentPage>

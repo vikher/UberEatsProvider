@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClubersProviderMobile.Prism.Views.MenuAvailabilityPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:prism="http://prismlibrary.com"
+    Title="{Binding Title}"
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <AbsoluteLayout>
+        <StackLayout
+            Padding="10"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <SearchBar
+                CancelButtonColor="{StaticResource cluberspink}"
+                FontAttributes="Italic"
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                Placeholder="Buscar Producto..."
+                PlaceholderColor="{StaticResource cluberspink}"
+                TextColor="{StaticResource cluberspink}" />
+            <RefreshView
+                Command="{Binding RefreshViewCommand}"
+                IsRefreshing="{Binding IsRefreshing}"
+                RefreshColor="{StaticResource cluberspink}">
+                <CollectionView
+                    x:Name="productsList"
+                    Grid.Row="2"
+                    ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}"
+                    SelectionChangedCommand="{Binding ToggledCommand}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label
+                                Margin="10,25,10,10"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Center"
+                                Text="No hay productos disponibles" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Frame
+                                    Margin="0"
+                                    Padding="10,10,10,0"
+                                    CornerRadius="10"
+                                    HasShadow="true">
+                                    <Grid RowSpacing="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+
+                                        </Grid.RowDefinitions>
+                                        <Frame
+                                            Grid.Row="1"
+                                            Grid.RowSpan="2"
+                                            Margin="0,-5,10,5"
+                                            Padding="0"
+                                            CornerRadius="15"
+                                            WidthRequest="70">
+                                            <ffimageloading:CachedImage
+                                                Aspect="AspectFill"
+                                                CacheDuration="50"
+                                                ErrorPlaceholder="{Binding ErrorPlaceholder}"
+                                                HeightRequest="80"
+                                                LoadingPlaceholder="{Binding ErrorPlaceholder}"
+                                                RetryCount="3"
+                                                RetryDelay="600"
+                                                Source="{Binding ProductFiles[0].Files.Url}"
+                                                WidthRequest="80" />
+                                        </Frame>
+                                        <Label
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            FontAttributes="Bold"
+                                            FontSize="Subtitle"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Name}" />
+
+                                        <Switch
+                                            Grid.Column="2"
+                                            Margin="0"
+                                            HorizontalOptions="EndAndExpand"
+                                            IsEnabled="False"
+                                            IsToggled="{Binding Available, Mode=TwoWay}"
+                                            OnColor="{StaticResource cluberspink}"
+                                            ThumbColor="White"
+                                            VerticalOptions="Center">
+
+                                        </Switch>
+
+                                        <StackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,-9,0,-3"
+                                            Padding="0"
+                                            Orientation="Vertical"
+                                            Spacing="0">
+                                            <Label
+                                                Margin="0,0,0,-3"
+                                                FontAttributes="Bold"
+                                                Text="{Binding HomePrice, StringFormat='A domicilio: {0:C0}.00'}" />
+                                            <Label FontAttributes="Bold" Text="{Binding OnSitePrice, StringFormat='En sitio: {0:C0}.00'}" />
+                                        </StackLayout>
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2"
+                                            Text="{Binding Description}"
+                                            TextColor="{StaticResource secondary_text}" />
+
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+        </StackLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsRunning}"
+            IsVisible="{Binding IsRunning}"
+            VerticalOptions="Center"
+            Color="{StaticResource cluberspink}" />
+    </AbsoluteLayout>
+</ContentPage>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="http://prismlibrary.com"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            xmlns:views="clr-namespace:ClubersProviderMobile.Prism.Views.Command"
+            x:Class="ClubersProviderMobile.Prism.Views.Command.CommandTabbedPage"
+            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+            ios:Page.UseSafeArea="true"
+            Visual="Material"
+            Title="{Binding Title}"
+            BarBackgroundColor="{StaticResource accent}"
+            BarTextColor="{StaticResource WhiteColor}">
+    <TabbedPage.Children>
+        <views:NewCommandPage />
+        <views:CommandPage />
+        <views:ReviewCommandPage />
+    </TabbedPage.Children>
+  
+</TabbedPage>
